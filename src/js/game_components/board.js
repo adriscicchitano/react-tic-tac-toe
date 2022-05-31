@@ -13,24 +13,22 @@ export class Board extends React.Component {
     }
 
     render() {
-        return (
-        <div>
-            <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-            </div>
-            <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-            </div>
-            <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-            </div>
-        </div>
-        );
+
+        let rows = []
+        const dimension = 3
+
+        for (let row = 0; row < dimension; row++){
+            let squares = []
+            for (let column = 0; column < dimension; column++){
+                squares.push(this.renderSquare((row * dimension) + column))
+            }
+            rows.push(
+                <div className='board-row'>
+                    {squares}
+                </div>
+            )
+        }
+
+        return (<div>{rows}</div>);
     }
 }
