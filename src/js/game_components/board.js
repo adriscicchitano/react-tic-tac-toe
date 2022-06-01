@@ -1,38 +1,26 @@
 import React from 'react';
 import 'css/index.css';
 import {Square} from './square'
+import times from 'lodash/times'
+
+export function Board({squares, onClick, winningLines}){
+
+  const dimension = 3
   
-export function Board(props){
-    
-    function renderSquare(i, isWinner) {
-        return (
+  return (
+    times(dimension).map((_, row) => (
+      <div className='board-row' key={row}>{
+        times(dimension).map((_, column) => {
+          const position = (row * dimension) + column
+          return(
             <Square 
-                isWinner={isWinner}
-                value={props.squares[i]}
-                onClick={() => {props.onClick(i)}}
+              key={position}
+              isWinner={winningLines?.includes(position)}
+              value={squares[position]}
+              onClick={() => {onClick(position)}}
             />
-        );
-    }
-
-    function createBoard() {
-
-        let rows = []
-        const dimension = 3
-        
-        for (let row = 0; row < dimension; row++){
-            let squares = []
-            for (let column = 0; column < dimension; column++){
-                const position = (row * dimension) + column
-                squares.push(renderSquare(position, props.winningLines?.includes(position)))
-            }
-            rows.push(
-                <div className='board-row'>
-                    {squares}
-                </div>
-            )
-        }
-        return rows;
-    }
-
-    return (<div>{createBoard()}</div>);
+          )
+        })}
+      </div>
+  )))
 }
