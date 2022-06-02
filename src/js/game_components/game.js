@@ -27,11 +27,17 @@ export function Game(){
     setStepNumber(step)
     setIsXNext(step % 2 === 0)
   }
-  
+
+  function matrixPosition(currentHistory, mostRecentHistory){
+    return currentHistory.map((element, i) => element !== mostRecentHistory[i]).indexOf(true)
+  }  
+
   const current = history[stepNumber]
+  const mostRecentHistory = history[stepNumber - 1] 
   const moves = history.map((_, move) => {
+    const pos = matrixPosition(current.squares, mostRecentHistory.squares)
     const desc = move ? 
-    "Go to move #" + move:
+    `Go to move #${move} (${pos % 3},${pos - pos % 3})`:
     "Go to game start"
     return(
       <li key={move}>
