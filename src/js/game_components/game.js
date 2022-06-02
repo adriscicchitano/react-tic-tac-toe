@@ -35,7 +35,7 @@ export function Game(){
     "Go to game start"
     return(
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+        <button style={{fontWeight: (stepNumber === move) ? "bold" : "normal"}} onClick={() => jumpTo(move)}>{desc}</button>
       </li>
       )
     })
@@ -64,5 +64,5 @@ export function Game(){
         <ol>{moves}</ol>
       </div>
       </div>
-      );
+    );
 }
