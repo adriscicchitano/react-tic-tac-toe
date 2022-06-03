@@ -8,19 +8,23 @@ export function Game(){
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}])
   const [stepNumber, setStepNumber] = useState(0)
   const [isXNext, setIsXNext] = useState(true)
+  const [positions, setPositions] = useState(Array(9).fill(null))
   const [winner, winningLines] = useMemo(() => calculateWinner(history[stepNumber].squares), [history, stepNumber])
   
   function handleClick(i){
     const savedHistory = history.slice(0, stepNumber + 1)
     const current = savedHistory[savedHistory.length - 1]
     const squares = current.squares.slice()
+    const currentPositions = positions
     
     if(calculateWinner(squares)[0] || squares[i]) return
 
     squares[i] = isXNext ? "X" : "O"
+    currentPositions[savedHistory.length - 1] = matrixPosition(current.squares, squares)
     setHistory(savedHistory.concat([{squares: squares}]))
     setIsXNext(!isXNext)
     setStepNumber(savedHistory.length)
+    setPositions(currentPositions)
   }
   
   function jumpTo(step){
@@ -33,12 +37,11 @@ export function Game(){
   }  
 
   const current = history[stepNumber]
-  const mostRecentHistory = history[stepNumber - 1] 
   const moves = history.map((_, move) => {
-    const pos = matrixPosition(current.squares, mostRecentHistory.squares)
-    const desc = move ? 
-    `Go to move #${move} (${pos % 3},${pos - pos % 3})`:
-    "Go to game start"
+    const desc = move ?
+      `Go to move #${move} (${Math.floor(positions[move - 1] / 3) + 1},${(positions[move - 1] % 3) + 1})` :
+      "Go to game start"
+    
     return(
       <li key={move}>
         <button style={{fontWeight: (stepNumber === move) ? "bold" : "normal"}} onClick={() => jumpTo(move)}>{desc}</button>
