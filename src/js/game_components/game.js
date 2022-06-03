@@ -8,6 +8,7 @@ export function Game(){
   const [history, setHistory] = useState([{squares: Array(9).fill(null)}])
   const [stepNumber, setStepNumber] = useState(0)
   const [isXNext, setIsXNext] = useState(true)
+  const [revertList, setRevertList] = useState(false)
   const [positions, setPositions] = useState(Array(9).fill(null))
   const [winner, winningLines] = useMemo(() => calculateWinner(history[stepNumber].squares), [history, stepNumber])
   
@@ -26,7 +27,15 @@ export function Game(){
     setStepNumber(savedHistory.length)
     setPositions(currentPositions)
   }
-  
+
+  function revertListActivation(){
+    setRevertList(!revertList)
+  }
+
+  function processListView(movements){
+    return revertList ? movements.reverse() : movements
+  }
+
   function jumpTo(step){
     setStepNumber(step)
     setIsXNext(step % 2 === 0)
@@ -34,7 +43,7 @@ export function Game(){
 
   function matrixPosition(currentHistory, mostRecentHistory){
     return currentHistory.map((element, i) => element !== mostRecentHistory[i]).indexOf(true)
-  }  
+  }
 
   const current = history[stepNumber]
   const moves = history.map((_, move) => {
@@ -70,7 +79,11 @@ export function Game(){
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <div>
+          <ol style={{listStyleType: 'none'}}>{moves[0]}</ol>
+          <ol style={{listStyleType: 'none'}}><button onClick={revertListActivation}>Revert List</button></ol>
+          <ol style={{listStyleType: 'none'}}>{processListView(moves.slice(1, moves.length - 1))}</ol>
+        </div>  
       </div>
       </div>
     );
