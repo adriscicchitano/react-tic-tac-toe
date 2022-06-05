@@ -79,7 +79,7 @@ export function Game(){
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <div>
+        <div className='moves-list'>
           <ol style={{listStyleType: 'none'}}>{moves[0]}</ol>
           <ol style={{listStyleType: 'none'}}><button onClick={revertListActivation}>Revert List</button></ol>
           <ol style={{listStyleType: 'none'}}>{processListView(moves.slice(1, moves.length - 1))}</ol>
