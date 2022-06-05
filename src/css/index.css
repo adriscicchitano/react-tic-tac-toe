@@ -16,9 +16,13 @@ body {
   .status {
     margin-bottom: 10px;
   }
-  
+
+  .moves-list{
+    position: relative; 
+    left: -30px;
+  }
+
   .square {
-    background: #fff;
     border: 1px solid #999;
     float: left;
     font-size: 24px;
@@ -32,19 +36,12 @@ body {
     width: 34px;
   }
 
-  .winning_square{
+  .square.winner{
     background: #0f0;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 34px;
+  }
+
+  .square.default{
+    background: #fff;
   }
   
   .square:focus {
