@@ -1,4 +1,4 @@
-import {  useState , useMemo} from 'react';
+import {  useState , useMemo, useCallback} from 'react';
 import 'css/index.css';
 import { calculateWinner } from './utils';
 import { Board } from './board';
@@ -12,7 +12,7 @@ export function Game(){
   const [positions, setPositions] = useState(Array(9).fill(null))
   const [winner, winningLines] = useMemo(() => calculateWinner(history[stepNumber].squares), [history, stepNumber])
   
-  function handleClick(i){
+  const handleClick = useCallback((i) => {
     const savedHistory = history.slice(0, stepNumber + 1)
     const current = savedHistory[savedHistory.length - 1]
     const squares = current.squares.slice()
@@ -26,7 +26,7 @@ export function Game(){
     setIsXNext(!isXNext)
     setStepNumber(savedHistory.length)
     setPositions(currentPositions)
-  }
+  }, [history, stepNumber, isXNext, positions])
 
   function revertListActivation(){
     setRevertList(!revertList)
